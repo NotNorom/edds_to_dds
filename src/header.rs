@@ -23,7 +23,7 @@ impl std::ops::Deref for HeaderFlags {
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone)]
 pub struct BlockIdentifiers(pub Vec<BlockIdentifier>);
 
 impl std::ops::Deref for BlockIdentifiers {
@@ -34,7 +34,7 @@ impl std::ops::Deref for BlockIdentifiers {
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub enum BlockKind {
     Copy,
     Lz4,
@@ -52,7 +52,7 @@ impl TryFrom<&[u8]> for BlockKind {
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub struct BlockIdentifier {
     pub kind: BlockKind,
     pub length: usize,

@@ -10,7 +10,7 @@ use nom::{
 
 use crate::header::{BlockIdentifier, BlockIdentifiers, BlockKind, Header, HeaderFlags};
 
-fn header(input: &[u8]) -> IResult<&[u8], Header> {
+pub(crate) fn header(input: &[u8]) -> IResult<&[u8], Header> {
     let header_fields = pair(header_flags, block_identifiers);
     map(header_fields, |(flags, block_identifiers)| Header { flags, block_identifiers })(input)
 }
