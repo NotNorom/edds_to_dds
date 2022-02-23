@@ -22,15 +22,15 @@ fn header_flags(input: &[u8]) -> IResult<&[u8], HeaderFlags> {
     map(take(flag_length), |header_flags: &[u8]| HeaderFlags(header_flags.to_vec()))(input)
 }
 
-fn block_identifiers(input: &[u8]) -> IResult<&[u8], BlockIdentifiers> {
-    map(many1(block_identifier), |bi| BlockIdentifiers(bi))(input)
-}
-
 fn block_identifier(input: &[u8]) -> IResult<&[u8], BlockIdentifier> {
     let (rest, kind) = map_res(alt((tag(b"COPY"), tag(b"LZ4 "))), BlockKind::try_from)(input)?;
     let (rest, length) = map_res(le_i32, |length| length.try_into())(rest)?;
 
     Ok((rest, BlockIdentifier { kind, length }))
+}
+
+fn block_identifiers(input: &[u8]) -> IResult<&[u8], BlockIdentifiers> {
+    map(many1(block_identifier), |bi| BlockIdentifiers(bi))(input)
 }
 
 #[cfg(test)]
